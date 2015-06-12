@@ -123,7 +123,11 @@ Week #1:
 - Generated initial Powerpoint presentation (Modified and presented at PSC each week)
 - Read additional papers about methods to sequence data and Drosophila RNA data in general
 - Learned how to manage datafiles and run processes on the Blacklight Supercomputer
-- Compiled possible Drosophila melanogaster backup data (Paired, HiSeq dataset)
+- Compiled possible Drosophila melanogaster backup data (Paired, HiSeq dataset, 16.6GB total):
+  - http://www.ncbi.nlm.nih.gov/sra/SRX1026294[accn]
+  - http://www.ncbi.nlm.nih.gov/sra/SRX1026313[accn]
+  - http://www.ncbi.nlm.nih.gov/sra/SRX1026263[accn]
+  - http://www.ncbi.nlm.nih.gov/sra/SRX1025980[accn]
 - Started working on a draft Poster to be presented during the final week
 - Completed a Workplan for PSC MARC Summer Internship
 
