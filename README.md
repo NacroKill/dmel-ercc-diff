@@ -1,5 +1,7 @@
 # dmel-ercc-diff
 
+********** Weekly Report of this PSC project at the end of this file. **********
+
 Using Drosophila melanogaster spike-in data to refine diferential
 expression algorithms.
 
@@ -110,3 +112,29 @@ http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/
 $ grep "^ftp" README.md > getit
 $ wget -ci getit 
 ```
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------- WEEKLY REPORT -----------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+
+Week #1:
+- Generated initial Powerpoint presentation (Modified and presented at PSC each week)
+- Read additional papers about methods to sequence data and Drosophila RNA data in general
+- Learned how to manage datafiles and run processes on the Blacklight Supercomputer
+- Compiled possible Drosophila melanogaster backup data (Paired, HiSeq dataset)
+- Started working on a draft Poster to be presented during the final week
+- Completed a Workplan for PSC MARC Summer Internship
+
+Week #2:
+- First week of Workshop
+  - Generated initial graphs by running FASTQC in SRAToolkit, output: HTML files
+    - Analyzed quality scores for reads on all FASTQ files
+    - Identified adapters in 2 data files
+  - Created PBS scripts to modify FASTQ files
+    - Used Scythe to remove adapters
+    - Used Sickle to trim specific read ends off of several files
+
+
+
