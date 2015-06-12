@@ -1,6 +1,6 @@
 # dmel-ercc-diff
 
-********** Weekly Report of this PSC project at the end of this file. **********
+********** Weekly Report of this PSC project at the end of README.md **********
 
 Using Drosophila melanogaster spike-in data to refine diferential
 expression algorithms.
