@@ -2,7 +2,7 @@
 
 ********** Weekly Report of this PSC project at the end of README.md **********
 
-Using Drosophila melanogaster spike-in data to refine diferential
+Using Drosophila melanogaster spike-in data to refine differential
 expression algorithms.
 
 2015/03/12 - HOZ
@@ -123,7 +123,7 @@ Week #1:
 - Generated initial Powerpoint presentation (Modified and presented at PSC each week)
 - Read additional papers about methods to sequence data and Drosophila RNA data in general
 - Learned how to manage datafiles and run processes on the Blacklight Supercomputer
-- Compiled possible Drosophila melanogaster backup data (Paired, HiSeq dataset, 16.6GB total):
+- Collected possible Drosophila melanogaster backup data (Paired, HiSeq dataset, 16.6GB total):
   - http://www.ncbi.nlm.nih.gov/sra/SRX1026294[accn]
   - http://www.ncbi.nlm.nih.gov/sra/SRX1026313[accn]
   - http://www.ncbi.nlm.nih.gov/sra/SRX1026263[accn]
@@ -132,13 +132,28 @@ Week #1:
 - Completed a Workplan for PSC MARC Summer Internship
 
 Week #2:
-- First week of Workshop
+- First week of PSC MARC Summer Workshop
   - Generated initial graphs by running FASTQC in SRAToolkit, output: HTML files
     - Analyzed quality scores for reads on all FASTQ files
     - Identified adapters in 2 data files
   - Created PBS scripts to modify FASTQ files
     - Used Scythe to remove adapters
     - Used Sickle to trim specific read ends off of several files
+   
+Week #3:
+- Second week of PSC MARC Summer Workshop
+  - Modified previous PBS scripts for improved results
+    - Changed adapter listing for Scythe
+    - Used Sickle to also remove N's in all files
+  - Finished reading papers describing analysis phase (using: Trinity, Tophat, Cufflinks)
+
+Week #4:
+- Modified Powerpoint presentation (included results from past weeks)
+- Worked on draft Poster to be presented during the final week
+- Duquesne Ethics Forum -All week-
+
+
+
 
 
 
