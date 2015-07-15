@@ -176,8 +176,9 @@ Week #6:
    - Attempted to install Tophat and Cufflinks on Crucible filesystem:
      - developed a draft bash file for Tophat and Cufflinks
      - experienced file system errors
-     - DXCLSM01 crashed
--  >>>>>   Changed title of project: Evaluating quantification and expression methods with D. Melanogaster data   <<<<<
+     - Crashed DXCLSM01
+
+***   Changed title of project: Evaluating quantification and expression methods with D. Melanogaster data   ***
 
 Week #7:
 - Modified Powerpoint presentation (included results from past weeks)
