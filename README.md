@@ -170,19 +170,19 @@ Week #6:
 - Worked on draft abstract for Duquesne 2015 Summer Research Symposium
 - Several java errors experienced on Blacklight system
    - description of machines:   http://www.psc.edu/index.php/data-exacell/hardware-infrastructure
-- Switched from Blacklight to DXCLSM01 machine due to delays from waiting in queue and previous problems:
+- Switched from Blacklight to DXCLSM01 machine due to delays from waiting in queue and 'thread-count' problems:
    - Successfully installed and ran up-to-date version of Trinity
      - developed a bash file to run all 3 Trinity phases
    - Attempted to install Tophat and Cufflinks on Crucible filesystem:
      - developed a draft bash file for Tophat and Cufflinks
      - experienced file system errors
      - DXCLSM01 crashed
-- Changed title of project: Evaluating quantification and expression methods with D. Melanogaster data
+-  >>>>>   Changed title of project: Evaluating quantification and expression methods with D. Melanogaster data   <<<<<
 
 Week #7:
 - Modified Powerpoint presentation (included results from past weeks)
 - Switched back to Blacklight due to DXCLSM crash
-   - Improved PBS scripts using bash file from Crucible to successfully run Trinity 
+   - Improved PBS scripts using bash file from Crucible to successfully run all Trinity phases   
 - Submitted abstract for Duquesne 2015 Summer Research Symposium
 
 
