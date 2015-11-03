@@ -1,6 +1,8 @@
 # dmel-ercc-diff
 
-Using Drosophila melanogaster spike-in data to refine diferential
+********** Weekly Report of this PSC project at the end of README.md **********
+
+Using Drosophila melanogaster spike-in data to refine differential
 expression algorithms.
 
 2015/03/12 - HOZ
@@ -110,3 +112,80 @@ http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/
 $ grep "^ftp" README.md > getit
 $ wget -ci getit 
 ```
+
+
+
+-----------------------------------------------------
+------------------- WEEKLY REPORT -------------------
+-----------------------------------------------------
+
+Week #1:
+- Generated initial Powerpoint presentation (Modified and presented at PSC each week)
+- Read additional papers about methods to sequence data and Drosophila RNA data in general
+- Learned how to manage datafiles and run processes on the Blacklight Supercomputer
+- Collected possible Drosophila melanogaster backup data (Paired, HiSeq dataset, 16.6GB total):
+  - http://www.ncbi.nlm.nih.gov/sra/SRX1026294[accn]
+  - http://www.ncbi.nlm.nih.gov/sra/SRX1026313[accn]
+  - http://www.ncbi.nlm.nih.gov/sra/SRX1026263[accn]
+  - http://www.ncbi.nlm.nih.gov/sra/SRX1025980[accn]
+- Started working on a draft Poster to be presented during the final week
+- Completed a Workplan for PSC MARC Summer Internship
+
+Week #2:
+- First week of PSC MARC Summer Workshop
+  - Generated initial quality graphs by running FASTQC in SRAToolkit, output: HTML files
+    - Analyzed quality scores for reads on all FASTQ files
+    - Identified adapters in 2 data files
+  - Created PBS scripts to modify FASTQ files
+    - Used Scythe to remove adapters
+    - Used Sickle to trim specific read ends off of several files
+   
+Week #3:
+- Second and final week of PSC MARC Summer Workshop
+  - Modified previous PBS scripts for improved results
+    - Changed adapter listing for Scythe
+    - Used Sickle to also remove N's in all files
+    - Generated final quality graphs with FASTQC for Scy-Trim'ed data
+  - Finished reading papers describing analysis phase (using: Trinity, Tophat, Cufflinks)
+
+Week #4:
+- Modified Powerpoint presentation (included results from past weeks)
+- Worked on draft Poster to be presented during the final week
+- Duquesne Ethics Forum -All week-
+
+Week #5:
+- Worked on draft Poster to be presented during the final week
+- Modified Powerpoint presentation (included results from past weeks)
+- Developed draft batch scripts on Blacklight to try running:
+   - Tophat: read mapper (reference based)
+   - Cufflinks: quantification method used in trascriptome assembly 
+   - Trinity:
+     - Inchworm - assembles the RNA-seq data
+     - Chrysalis - clusters contigs and constructs complete de Bruijn graphs for each cluster
+     - Butterfly - processes the individual graphs in parallel, reports full-length transcripts 
+   
+
+Week #6:
+- Modified Powerpoint presentation (included results from past weeks)
+- Worked on draft abstract for Duquesne 2015 Summer Research Symposium
+- Several java errors experienced on Blacklight system
+   - description of machines:   http://www.psc.edu/index.php/data-exacell/hardware-infrastructure
+- Switched from Blacklight to DXCLSM01 machine due to delays from waiting in queue and 'thread-count' problems:
+   - Successfully installed and ran up-to-date version of Trinity
+     - developed a bash file to run all 3 Trinity phases
+   - Attempted to install Tophat and Cufflinks on Crucible filesystem:
+     - developed a draft bash file for Tophat and Cufflinks
+     - experienced file system errors
+     - Crashed DXCLSM01
+
+***   Changed title of project: Evaluating quantification and expression methods with D. Melanogaster data   ***
+
+Week #7:
+- Modified Powerpoint presentation (included results from past weeks)
+- Switched back to Blacklight due to DXCLSM crash
+   - Improved PBS scripts using bash file from Crucible to successfully run all Trinity phases   
+- Submitted abstract for Duquesne 2015 Summer Research Symposium
+
+
+
+
