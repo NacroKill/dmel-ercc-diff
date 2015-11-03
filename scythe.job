@@ -1,0 +1,57 @@
+#!/bin/bash
+#PBS -q batch
+#PBS -j oe
+#PBS -l ncpus=16
+#PBS -l walltime=06:00:00
+#PBS -N scythe
+#
+# ----------------
+# Scythe Setup
+# ----------------
+source /usr/share/modules/init/bash
+module load scythe
+set -x
+#-----------------
+# FILE PARAMETERS
+#-----------------
+DIRNAME=$SCRATCH/data_files/
+TMP=$SCRATCH/data
+export TMP
+#
+ja $SCRATCH/$$
+cd $DIRNAME
+# ------------------------------------------------------
+# scythe -- DO NOT process more than 16 files at once 
+# ------------------------------------------------------
+dplace -c 0 scythe \
+       -a $SCRATCH/job_files/adapter_listing.fa \
+       -o SCY_SRR039460.fastq \
+       -M 1 \
+       SRR039460.fastq \
+       > scythe_log.1 2>&1 &
+#
+dplace -c 4 scythe \
+       -a $SCRATCH/job_files/adapter_listing.fa \
+       -o SCY_SRR039458.fastq \
+       -M 1 \
+       SRR039458.fastq \
+       > scythe_log.2 2>&1 &
+#
+dplace -c 8 scythe \
+       -a $SCRATCH/job_files/adapter_listing.fa \
+       -o SCY_SRR039933.fastq \
+       -M 1 \
+       SRR039933.fastq \
+       > scythe_log.3 2>&1 &
+#
+dplace -c 12 scythe \
+       -a $SCRATCH/job_files/adapter_listing.fa \
+       -o SCY_SRR039935.fastq \
+       -M 1 \
+       SRR039935.fastq \
+       > scythe_log.4 2>&1 &
+wait
+#
+ja -set $SCRATCH/$$
+pwd
+ls -l

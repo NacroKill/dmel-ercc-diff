@@ -1,0 +1,56 @@
+#!/bin/bash
+#PBS -l ncpus=16
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -q batch
+#PBS -N sickle_se
+#
+# ----------------
+# sickle Setup
+# ----------------
+source /usr/share/modules/init/bash
+module load sickle/1.2
+set -x
+#-----------------
+# FILE PARAMETERS
+#-----------------
+RAWFASTQFILEDIR=/brashear/ijimenez/data_files/scythed_files
+SICKLEFASTQFILEDIR=/brashear/ropelews/ingrid/sicklefastq
+#
+# Prepare work subdirectory
+#
+cd $SCRATCH
+#########################################
+##  TRIM FASTQ DATASETS USING SICKLE   ##
+##  LIMIT to 16 cores/pairs of files   ##
+#########################################
+FILES=${RAWFASTQFILEDIR}/*
+PLACEON=0
+i=0
+for f in $FILES
+do
+  filename=$(basename "$f")
+  dplfile=DplaceLog_$filename
+  logfile=Log_$filename
+  dplace -o $dplfile -c $PLACEON sickle se -t sanger \
+    -f ${f} -o SCY__TRIM_$filename \
+    -n -q 15 -l 25 \
+      > $logfile 2>&1 &
+  ((PLACEON= PLACEON + 1))
+  if (( PLACEON == 16 ))
+  then
+    PLACEON=0
+    wait
+  fi  
+  i=$[$i+1]
+done
+wait
+##################
+####   Done.  ####
+##################
+for infile in Log*
+do
+   cat $infile
+done
+pwd
+ls -l
