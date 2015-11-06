@@ -1,0 +1,7 @@
+Universe   = vanilla
+Executable = /home/ivan/hulk_cleaning/Tophat_Birnavirus_Confirmer.py
+Arguments  =  
+Log        = tophat_birnavirus_confirmer.log
+Output     = tophat_birnavirus_confirmer.out
+Error      = tophat_birnavirus_confirmer.error
+Queue
