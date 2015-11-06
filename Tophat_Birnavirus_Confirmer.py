@@ -1,37 +1,17 @@
 #!/home/ivan/.conda/envs/my_root/bin/python
 """
 
-####    Programador: Ivan Jimenez
+####    Programmer: Ivan Jimenez
 
 ####    Universidad de Puerto Rico, Recinto de Rio Piedras
 ####    BIOL-4990 (Investigacion)
 
-*Todo a continuacion es 'open-source': Puede ser utilizado/modificado por cualquier usuario.
+This program verifies that the total count of alingments obtained by running the TopHat program is accurate.
+The Birnavirus genome was used as reference and 4 files were concatinated into a single FASTA file. The Screed
+module for Python was used to simplify the comparison (using seperate databases for the genome and scytrim'ed 
+FASTA file). All viral sequence records that are found are displayed on screen after running this script. 
 
-
-Este programa se debe utilizar luego de correr el programa: 'Registro_de_Abejas_ILJR.py' varias veces y
-basicamente sirve para concatenar toda las observaciones encontradas en los archivos que siguen el formato:
-
-    'Experiment-*.csv'
-
-        - donde el simbolo de * implica cualquier digito o caracter.
-
-Al correr este codigo, se creara un archivo de excel que va a contener toda la informacion
-de los archivos que se encuentran en el mismo directorio donde esta ubicado este programa
-al momento de ser ejecutado.
-
-
-Para cada entrada, se muestra la fecha y hora de la entrada, el color y ID del individuo juntos,
-la accion que estaba llevando a cabo la abeja en el momento, si estaba cubierta de polen
-o no, y el turno del dia cuando fue observada (el simbolo de * despues del turno implica
-que estuvo lloviendo al momento de la observacion). A continuacion, una guia para utilizar
-este programa adecuadamente:
-
-INSTRUCCIONES:
-
-
-Por ahora, solo se requiere ingresar '1' y oprimir <Enter> para acceder el programa y comenzar
-la concatenacion de los archivos que coincidan con el formato establecido.
+This is a work in progress... Please be patient. The documentation for this script is sporadic.
 
 """
 import time as t
@@ -191,18 +171,13 @@ print viral_sequences
 
 
 
-
-
-
-
-
-
 #print "\nPrinting sequence of last record.\n\t"
 #print scytrimgenes['sequence']
 
 
 ###Printing sequence of last record.    
 #ATTTAATAACAAACGGATACTCAACAGGTTACGGAA
+
 
 
 # print len(allscytrimdb)
@@ -220,11 +195,6 @@ print viral_sequences
 
 # ####Printing second record...
 # ####{'description': 'HWI-EAS179:1:1:8:268 length=36', 'id': 1, 'name': 'SRR039458.10', 'sequence': <_screed_attr 'sequence'>}
-
-
-
-
-
 
 
 
@@ -249,14 +219,11 @@ print viral_sequences
 
 # corriendo = raw_input("Ingrese '1' para correr el programa: ")
 
-
-       
+    
 # filename = "dmel_birnavirus.fasta"
 # #reference: birnavirus_genome
 # reference = open(getpath() + filename, 'r')
 # everyline = reference.readlines()
-
-
 
 
 # reference.close()
