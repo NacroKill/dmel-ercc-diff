@@ -118,6 +118,11 @@ $ wget -ci getit
 -----------------------------------------------------
 ------------------- WEEKLY REPORT -------------------
 -----------------------------------------------------
+Original files found at:
+- SRR039935 - http://www.ncbi.nlm.nih.gov/sra/?term=SRX019236
+- SRR039933 - http://www.ncbi.nlm.nih.gov/sra/?term=SRX019234
+- SRR039460 - http://www.ncbi.nlm.nih.gov/sra/?term=SRX018872
+- SRR039458 - http://www.ncbi.nlm.nih.gov/sra/?term=SRX018870
 
 Week #1:
 - Generated initial Powerpoint presentation (Modified and presented at PSC each week)
