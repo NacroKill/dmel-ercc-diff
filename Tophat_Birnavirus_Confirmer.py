@@ -22,9 +22,8 @@ global array
 import screed
 import sys
 from screed import ScreedDB
-corriendo = "N"
+#corriendo = "N"
 bioinfo_path = "/home/ivan/hulk_cleaning/"
-
 #while corriendo != 'Y' or corriendo != 'y' or corriendo != '1' or corriendo != 'yes' or corriendo != 'Yes':
     #print "\nDon't you wish to confirm Tophat ran correctly?\n"
 #    corriendo = raw_input("Do you wish to run the program (Y/N): ")
@@ -66,9 +65,15 @@ birnadb = ScreedDB(sequence_path + "_screed")
 #[u'gi|262225302|gb|GQ342962.1|', u'gi|262225305|gb|GQ342963.1|']
 
 birnarecords = []
+a=0
 for record in birnadb.itervalues():
     birnarecords.append(record)
+    print "\nPrinting added record\n"
+    #print record['sequence']
+    birnarecords[a]['sequence'] = str(record['sequence'])
+    a+=1
 
+print birnarecords
 #typing: $ records
 #   PRODUCES: [{'description': 'Drosophila melanogaster birnavirus SW-2009a strain DBV segment A, complete sequence', 'id': 0, 'name': 'gi|262225302|gb|GQ342962.1|', 'sequence': <_screed_attr 'sequence'>}, {'description': 'Drosophila melanogaster birnavirus SW-2009a strain DBV segment B, complete sequence', 'id': 1, 'name': 'gi|262225305|gb|GQ342963.1|', 'sequence': <_screed_attr 'sequence'>}]
 #len(record['sequence'])
@@ -76,11 +81,12 @@ for record in birnadb.itervalues():
 #record['sequence']
 #   <_screed_attr 'sequence'>
 print "\n\n\n"
-print "Printing a count: all birna records (should equal to 2)...\n"
-print len(birnarecords)
+#print "Printing a count: all birna records (should equal to 2)...\n"
+#print len(birnarecords)
 print "\n\n\n"
-print "\nPrinting sequence of last record.\n\t"
-print record['sequence']
+#print "\nPrinting sequence of last record.\n\t"
+
+#print record['sequence']
 
 print "\nPrinting first record\n\t"
 segmentA = birnadb[birnadb.keys()[0]]
@@ -118,41 +124,53 @@ print segmentB
 
 #NONEEDTOREAD!!!####screed.read_fasta_sequences(bioinfo_path + "scy_trim_files/all_unclean_scytrims.fasta")
 
+#print "testing\n\n\n"
+#print birnarecords
+#print "TESTING\n\n\n"
 
-allscytrimdb = ScreedDB(bioinfo_path + "all_unclean_scytrims.fasta_screed")
+
 #PRODUCES: <ScreedDB, '/Users/ivanjimenez/Desktop/CLASES/INTERNSHIPS/BIOINFO INTERNSHIP FILES/RESULTS/hulk/dmel_birnavirus.fa_screed'>
+allscytrimdb = ScreedDB(bioinfo_path + "all_unclean_scytrims.fasta_screed")
 
-print "Now adding all records in scytrimfasta database into an array.\n\nPlease wait..."
-adding_count = 0
-scytrimrecords = []
+#print "Now adding all records in scytrimfasta database into an array.\n\nPlease wait..."
+
+
+viral_sequences = []
+iterator = 0
+birnasegmentA = birnarecords[0]
+birnasegmentB = birnarecords[1]
 for scytrimrec in allscytrimdb.itervalues():
-    scytrimrecords.append(scytrimrec)
-    print "Record #" + str(int(adding_count)+1) + " added..."
-    adding_count = adding_count+1
+    if birnarecords[0]['sequence'].find(str(scytrimrec['sequence'])) == -1 or birnarecords[1]['sequence'].find(str(scytrimrec['sequence'])) == -1:
+        print "Checked record #" + str(int(iterator)+1) + " from array."
+    else:
+        viral_sequences.append(scytrimrec)
+        print "FOUND A VIRAL SEQUENCE!!!"
+    iterator+=1
+ 
+print "\nPrinting first segment\n"
+print birnarecords[0]['sequence']
+print "\nPrinting last scytrim record\n"
+print scytrimrec['sequence']
+print "\nPrinting second sequence\n"
+print birnarecords[1]['sequence']
+
 
 print "\n\n\n"
 print "Printing the total (count) of all ScyTrim records\n"
-print len(scytrimrecords)
+print str(iterator)
 print "\n\n\n"
+#THIS SHOULD PRINT "1131"
+print len(viral_sequences)
 
-iterator=0
+#An empty viral_sequences.csv file needs to be created before running this script!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+if len(viral_sequences) != 0:
+    creatingfile = open(bioinfo_path + "viral_sequences.csv", "r+")
+    creatingfile.write(str(viral_sequences))
 
-viral_sequences = []
+#PRINTING 
 
-while iterator < len(scytrimrecords):
-    strecord = scytrimrecords[iterator]
-    birnasegmentA = birnarecords[1]
-    birnasegmentB = birnarecords[2]
-    if birnasegmentA['sequence'].find(strecord['sequence']) == -1 or birnasegmentB['sequence'].find(strecord['sequence']) == -1:
-        continue
-        print "Checked record #" + str(int(interator)+1) + " from array."
-    else:
-         viral_sequences.append(strecord)
-         print "FOUND A VIRAL SEQUENCE!!!"
-    iterator=iterator+1
 
-print "\n\n"
-print viral_sequences
+
 
 #iterator=0
 #segmentA = birnadb[birnadb.keys()[0]] 
