@@ -22,8 +22,11 @@ global array
 import screed
 import sys
 from screed import ScreedDB
+import string
+
 #corriendo = "N"
-bioinfo_path = "/home/ivan/hulk_cleaning/"
+bioinfo_path = "/Users/ivanjimenez/Desktop/CLASES/INTERNSHIPS/BIOINFO INTERNSHIP FILES/RESULTS/hulk_old_files/"
+
 #while corriendo != 'Y' or corriendo != 'y' or corriendo != '1' or corriendo != 'yes' or corriendo != 'Yes':
     #print "\nDon't you wish to confirm Tophat ran correctly?\n"
 #    corriendo = raw_input("Do you wish to run the program (Y/N): ")
@@ -51,7 +54,6 @@ def getpath():
 ####
 # NOT USING THE GETPATH() FUNCTION YET:
 ####
-
 
 sequence_path = bioinfo_path + "dmel_birnavirus.fa"
 
@@ -134,13 +136,34 @@ allscytrimdb = ScreedDB(bioinfo_path + "all_unclean_scytrims.fasta_screed")
 
 #print "Now adding all records in scytrimfasta database into an array.\n\nPlease wait..."
 
+#Function to find the complement of a strand of DNA
+def complementary_strand(strand):
+    return strand.translate(string.maketrans('TAGCtagc', 'ATCGATCG'))
+
+
 
 viral_sequences = []
 iterator = 0
-birnasegmentA = birnarecords[0]
-birnasegmentB = birnarecords[1]
+birnasegmentA = birnarecords[0]['sequence']
+birnasegmentB = birnarecords[1]['sequence']
+birnarevsegA = birnasegmentA[::-1]
+print "\nPrinting the first segment in reverse:\n"
+print birnarevsegA
+birnarevsegB = birnasegmentB[::-1]
+print "\nPrinting the second segment in reverse:\n"
+print birnarevsegB
+
+birnacomplementA = complementary_strand(birnarevsegA)
+print "\nPrinting the first segment's complement:\n"
+print birnacomplementA
+
+birnacomplementB = complementary_strand(birnarevsegB)
+print "\nPrinting the second segment's complement:\n"
+print birnacomplementB
+
+
 for scytrimrec in allscytrimdb.itervalues():
-    if birnarecords[0]['sequence'].find(str(scytrimrec['sequence'])) == -1 or birnarecords[1]['sequence'].find(str(scytrimrec['sequence'])) == -1:
+    if str(birnasegmentA).find(str(scytrimrec['sequence'])) == -1 and str(birnasegmentB).find(str(scytrimrec['sequence'])) == -1 and str(birnacomplementA).find(str(scytrimrec['sequence'])) == -1 and str(birnacomplementB).find(str(scytrimrec['sequence'])) == -1:
         print "Checked record #" + str(int(iterator)+1) + " from array."
     else:
         viral_sequences.append(scytrimrec)
