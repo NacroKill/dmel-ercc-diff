@@ -70,7 +70,7 @@ birnarecords = []
 a=0
 for record in birnadb.itervalues():
     birnarecords.append(record)
-    print "\nPrinting added record\n"
+    #print "\nPrinting added record\n"
     #print record['sequence']
     birnarecords[a]['sequence'] = str(record['sequence'])
     a+=1
@@ -141,54 +141,124 @@ def complementary_strand(strand):
     return strand.translate(string.maketrans('TAGCtagc', 'ATCGATCG'))
 
 
-
+#Initializing the array to keep all records of viral sequences found
 viral_sequences = []
+#Keeping cound of how many records have been checked...
 iterator = 0
+
+
 birnasegmentA = birnarecords[0]['sequence']
 birnasegmentB = birnarecords[1]['sequence']
+
+#print "\nPrinting the first segment in reverse:\n"
 birnarevsegA = birnasegmentA[::-1]
-print "\nPrinting the first segment in reverse:\n"
-print birnarevsegA
+#print birnarevsegA
+
+#print "\nPrinting the second segment in reverse:\n"
 birnarevsegB = birnasegmentB[::-1]
-print "\nPrinting the second segment in reverse:\n"
-print birnarevsegB
+#print birnarevsegB
 
+#print "\nPrinting the first segment's complement:\n"
 birnacomplementA = complementary_strand(birnarevsegA)
-print "\nPrinting the first segment's complement:\n"
-print birnacomplementA
+#print birnacomplementA
 
+#print "\nPrinting the second segment's complement:\n"
 birnacomplementB = complementary_strand(birnarevsegB)
-print "\nPrinting the second segment's complement:\n"
-print birnacomplementB
+#print birnacomplementB
 
 
-for scytrimrec in allscytrimdb.itervalues():
-    if str(birnasegmentA).find(str(scytrimrec['sequence'])) == -1 and str(birnasegmentB).find(str(scytrimrec['sequence'])) == -1 and str(birnacomplementA).find(str(scytrimrec['sequence'])) == -1 and str(birnacomplementB).find(str(scytrimrec['sequence'])) == -1:
-        print "Checked record #" + str(int(iterator)+1) + " from array."
-    else:
-        viral_sequences.append(scytrimrec)
-        print "FOUND A VIRAL SEQUENCE!!!"
-    iterator+=1
+
+
+
+# for scytrimrec in allscytrimdb.itervalues():
+#     if str(birnasegmentA).find(str(scytrimrec['sequence'])) == -1 and str(birnasegmentB).find(str(scytrimrec['sequence'])) == -1 and str(birnacomplementA).find(str(scytrimrec['sequence'])) == -1 and str(birnacomplementB).find(str(scytrimrec['sequence'])) == -1:
+#         print "Checked record #" + str(int(iterator)+1) + " from array."
+#     else:
+#         viral_sequences.append(scytrimrec)
+#         print "FOUND A VIRAL SEQUENCE!!!"
+#     iterator+=1
  
-print "\nPrinting first segment\n"
-print birnarecords[0]['sequence']
-print "\nPrinting last scytrim record\n"
-print scytrimrec['sequence']
-print "\nPrinting second sequence\n"
-print birnarecords[1]['sequence']
+#Function to count the number of mismatches between two sequences
+def mismatch(read , virus_seq):
+        if len(read) != len(virus_seq):
+            print "Tried to compare to read sequences that were not the same length: \n\nlength of read = " + len(str(read)) + "\n" + "length of virus = "+ str(len(str(virus_seq)))
+        else:
+            mismatch_count = 0
+            for i in range(0, len(str(virus_seq))):
+                if str(read[i]) != str(virus_seq[i]):
+                    mismatch_count += 1
+            return mismatch_count
+                
+
+            # EXAMPLE:
+
+            #   CGTAGCGATAGAGAGAGAAGGGACT 
+            #   CTGAG
 
 
+#BEGINNING 4 FOR LOOPS ANIDADOS
+#grouping all known virus_segments (including complements) into an array...
+virus_segments=(birnasegmentA, birnasegmentB, birnacomplementA, birnacomplementB)
+#Setting the number of mismatches that are allowed...
+k = 2
+
+
+#Loop through ALL 49Million reads
+for scytrimrecord in allscytrimdb.itervalues():
+    #ISOLATE THE SEQUENCE IN THE RECORD
+    scytrimseq = str(scytrimrecord['sequence'])
+    #Loop through ALL 4 viralsegments
+    for birna_segment in virus_segments:
+        #loop through all bases of the segment (or complement)
+        for i in range(0, (int(len(birna_segment))-int(len(scytrimseq))+1)): #bp in virus
+            #reset mismatch to 0 for next comparison
+            mismatches = mismatch(scytrimseq , birna_segment[i:i+len(scytrimseq)])
+            if mismatches > k:
+                #print "Checked record #" + str(int(i)+1) + " from array."
+                continue
+            elif mismatches<=k:
+                print "FOUND A VIRAL SEQUENCE! Printing it now: "
+                print scytrimseq
+                viral_sequences.append(scytrimrecord)
+                break 
+        if mismatches <=k:
+            break
+    #If viral sequence is found, should print a warning and then the sequence, followed by the number of the sequence (out of 49million inspected)        
+    print "Checked record #" + str(int(iterator)+1) + " from array."
+    iterator += 1     
+
+
+
+
+
+# #grouping all known virus_segments (including complements) into an array...
+# virus_segments=(birnasegmentA, birnasegmentB, birnacomplementA, birnacomplementB)
+# #Loop through ALL 49Million reads
+# for scytrimrecord in allscytrimdb.itervaules():
+#     #ISOLATE THE SEQUENCE IN THE RECORD
+#     scytrimseq = scytrimrecord['sequence']
+#     #Loop through ALL 4 viralsegments
+#     for birna_segment in virus_segments:
+
+# print "\nPrinting first segment\n"
+# print birnarecords[0]['sequence']
+# print "\nPrinting last scytrim record\n"
+# print scytrimrec['sequence']
+# print "\nPrinting second sequence\n"
+# print birnarecords[1]['sequence']
+
+
+# print "\n\n\n"
+# print "Printing the total (count) of all ScyTrim records\n"
+# print str(iterator)
 print "\n\n\n"
-print "Printing the total (count) of all ScyTrim records\n"
-print str(iterator)
-print "\n\n\n"
-#THIS SHOULD PRINT "1131"
+print "THIS SHOULD PRINT: 1131"
 print len(viral_sequences)
 
 #An empty viral_sequences.csv file needs to be created before running this script!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 if len(viral_sequences) != 0:
-    creatingfile = open(bioinfo_path + "viral_sequences.csv", "r+")
-    creatingfile.write(str(viral_sequences))
+    editingfile = open(bioinfo_path + "viral_sequences.csv", "r+")
+    editingfile.write(str(viral_sequences))
 
 #PRINTING 
 
@@ -268,3 +338,32 @@ if len(viral_sequences) != 0:
 
 
 # reference.close()
+
+
+
+            ##INSERT TRANSFERED SECTION IF REVERTING BACK......
+
+
+
+            ## TRANSFERED BLOCK......
+
+            #Loop through all bases of the chosen sequence (out of 49million) 
+            # for j in range(0, len(str(scytrimseq))) #bp in read
+            #     #checking if the length of the remaining scytrimsequence is longer than the remaining viral_segment (not enough bases left in the birna_segment to compare to)
+            #     if len(birna_segment[i:]) < len(scytrimseq[j:]):
+            #         print "\nNot enough bases left in virus_genome for comparison!\n"
+            #         break
+            #     else:
+            #         if birna_segment[int(i+j)] == scytrimseq[int(j)]:
+
+            #         #count mismatch
+            #         #if mismatch > k
+            #             #break
+            # if mismatch<=k:
+            #     print "FOUND A VIRAL SEQUENCE!!!"
+            #     print read
+            #     viral_sequences.append(scytrimrecord)
+            #     break
+
+
+
