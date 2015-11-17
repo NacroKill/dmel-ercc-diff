@@ -27,6 +27,11 @@ import string
 #corriendo = "N"
 bioinfo_path = "/Users/ivanjimenez/Desktop/CLASES/INTERNSHIPS/BIOINFO INTERNSHIP FILES/RESULTS/hulk_old_files/"
 
+#Setting the number of mismatches that are allowed...
+k = 2
+
+
+
 #while corriendo != 'Y' or corriendo != 'y' or corriendo != '1' or corriendo != 'yes' or corriendo != 'Yes':
     #print "\nDon't you wish to confirm Tophat ran correctly?\n"
 #    corriendo = raw_input("Do you wish to run the program (Y/N): ")
@@ -178,7 +183,7 @@ birnacomplementB = complementary_strand(birnarevsegB)
 #         print "FOUND A VIRAL SEQUENCE!!!"
 #     iterator+=1
  
-#Function to count the number of mismatches between two sequences
+#Function to count the number of mismatches between two sequences, IF accepted MISMATCH_COUNT is exceeded, stops counting mismatches and returns current value
 def mismatch(read , virus_seq):
         if len(read) != len(virus_seq):
             print "Tried to compare to read sequences that were not the same length: \n\nlength of read = " + len(str(read)) + "\n" + "length of virus = "+ str(len(str(virus_seq)))
@@ -187,6 +192,8 @@ def mismatch(read , virus_seq):
             for i in range(0, len(str(virus_seq))):
                 if str(read[i]) != str(virus_seq[i]):
                     mismatch_count += 1
+                elif mismatch_count > k:
+                    break
             return mismatch_count
                 
 
@@ -199,9 +206,6 @@ def mismatch(read , virus_seq):
 #BEGINNING 4 FOR LOOPS ANIDADOS
 #grouping all known virus_segments (including complements) into an array...
 virus_segments=(birnasegmentA, birnasegmentB, birnacomplementA, birnacomplementB)
-#Setting the number of mismatches that are allowed...
-k = 2
-
 
 #Loop through ALL 49Million reads
 for scytrimrecord in allscytrimdb.itervalues():
@@ -213,10 +217,7 @@ for scytrimrecord in allscytrimdb.itervalues():
         for i in range(0, (int(len(birna_segment))-int(len(scytrimseq))+1)): #bp in virus
             #reset mismatch to 0 for next comparison
             mismatches = mismatch(scytrimseq , birna_segment[i:i+len(scytrimseq)])
-            if mismatches > k:
-                #print "Checked record #" + str(int(i)+1) + " from array."
-                continue
-            elif mismatches<=k:
+            if mismatches <= k:
                 print "FOUND A VIRAL SEQUENCE! Printing it now: "
                 print scytrimseq
                 viral_sequences.append(scytrimrecord)
