@@ -203,7 +203,7 @@ Week #8:
    - Output from Tophat used in Cufflinks analysis
       - Counted all diff.ex. genes from compared files and represented them using a bar chart
       - Files compared: ID:458+ID:460 vs. ID:933  and   ID:458+ID:460 vs. ID:935
-         - [Must repeat ENTIRE process after "CLEANING" the original data to COMPARE ASSEMBLIES]
+         - [Must repeat ENTIRE process after "CLEANING" the original data to COMPARE ASSEMBLIES]
          - Methods to add and use in comparison: CummeRbund, Sailfish
 - Finished Poster
 - Presented Poster at Duquesne 2015 Summer Research Symposium
