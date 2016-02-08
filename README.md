@@ -193,18 +193,18 @@ Week #7:
 
 Week #8:
 - Modified Powerpoint presentation (included results from past weeks)
-   - Presented to all Pittsburgh Supercomputing Center directors and staff.
+   - Presented to all Pittsburgh Supercomputing Center directors and staff.
 - Succesfully ran all reference based/de-novo scripts:
-   - Output from Trinity used in eXpress and RSEM
-     - Represented differentially expressed genes using heatmap from EdgeR
-       - Identified viral sequences (annotate to D. Birnavirus and X virus)
-         - [Must repeat ENTIRE process after "CLEANING" the original data to COMPARE ASSEMBLIES]
-           - Methods to add and use in comparison: DESEQ, Sailfish
-   - Output from Tophat used in Cufflinks analysis
-     - Counted all diff.ex. genes from compared files and represented them using a bar chart
-     - Files compared: ID:458+ID:460 vs. ID:933  and   ID:458+ID:460 vs. ID:935
-        - [Must repeat ENTIRE process after "CLEANING" the original data to COMPARE ASSEMBLIES]
-           - Methods to add and use in comparison: CummeRbund, Sailfish
+   - Output from Trinity used in eXpress and RSEM
+      - Represented differentially expressed genes using heatmap from EdgeR
+         - Identified viral sequences (annotate to D. Birnavirus and X virus)
+            - [Must repeat ENTIRE process after "CLEANING" the original data to COMPARE ASSEMBLIES]
+            - Methods to add and use in comparison: DESEQ, Sailfish
+   - Output from Tophat used in Cufflinks analysis
+      - Counted all diff.ex. genes from compared files and represented them using a bar chart
+      - Files compared: ID:458+ID:460 vs. ID:933  and   ID:458+ID:460 vs. ID:935
+         - [Must repeat ENTIRE process after "CLEANING" the original data to COMPARE ASSEMBLIES]
+         - Methods to add and use in comparison: CummeRbund, Sailfish
 - Finished Poster
 - Presented Poster at Duquesne 2015 Summer Research Symposium
 
