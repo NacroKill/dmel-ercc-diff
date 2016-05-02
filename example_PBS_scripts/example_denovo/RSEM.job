@@ -1,0 +1,203 @@
+#!/bin/bash
+#PBS -l nodes=1:ppn=15
+#PBS -l walltime=24:00:00
+#PBS -j oe
+#PBS -q batch
+#PBS -N abundance_estimation_RSEM
+#
+#
+# Setup the module command
+#
+#ja $SCRATCH/$$
+source /usr/share/Modules/init/bash
+#
+
+# UNLIKE the ~/tangent/Trinity_DE_Abund_Est_RSEM.job, this version uses 
+# the module rsem/1.2.25-all commands
+
+# Load the needed modules
+#
+module load trinity/2.1.1-all
+module load rsem/1.2.25-all
+#module load trinity/2.0.6
+#module load perl/5.18.4-threads
+#module load java/jdk7
+#module load gcc/4.9.2
+#module load icc/14.0.1
+#module load bowtie/1.1.1
+#module load samtools/0.1.19
+#module load rsem/1.2.21
+#module load R/3.2.1-mkl
+
+#module load java
+#module load bowtie/1.1.1
+#module load samtools/0.1.19
+#module load rsem/1.2.20
+#module load gcc/4.9.2
+#module load perl/5.12.5-threads
+#
+# Turn echo on so all commands are echoed in the output log
+#
+set -x
+#
+date
+date
+date
+# Define the directory where the job will run
+#
+ROOTDIR=/crucible/sy31l7p/ijimenez/hulk/after_cleaning/denovo_diffexp/rsem
+#${SCRATCH}/job_files/one_more_try_tophat/moving_on
+TRANSDIR=/crucible/sy31l7p/ijimenez/hulk/after_cleaning/trinity_output/trinity_out_dir
+#${SCRATCH}/job_files/one_more_try_tophat/trinity_out_dir
+ABUNDDIR=${ROOTDIR}/abundance_estimation_output
+SCYTRIMFILES=/crucible/sy31l7p/ijimenez/all_scy_trim_folder/clean_scy_trim_files
+TRINITY_ABUN=/usr/local/packages/trinity/r2014-04-13p1
+#$SCRATCH/data_files/scy_trim_files
+#rm -r $ABUNDDIR
+mkdir -p $ABUNDDIR
+cd $ABUNDDIR
+#
+# Prep the reference (Trinity.fasta)
+#
+rsem-prepare-reference --bowtie ${TRANSDIR}/Trinity.fasta rsem_reference
+
+#${TRINITY_ABUN}/util/align_and_estimate_abundance.pl \
+#  --transcripts ${TRANSDIR}/Trinity.fasta \
+#  --est_method RSEM \
+#  --aln_method bowtie \
+#  --trinity_mode \
+#  --prep_reference \
+#  --SS_lib_type F --thread_count 16 
+#
+#wait
+date
+date
+date
+wait
+#
+# Align first set
+#
+mkdir -p ${ABUNDDIR}/rsem_dmel_scytrim460
+cp ${ABUNDDIR}/rsem_reference* ${ABUNDDIR}/rsem_dmel_scytrim460
+cd ${ABUNDDIR}/rsem_dmel_scytrim460
+rsem-calculate-expression \
+ --num-threads 16 \
+ --forward-prob=1.0 \
+ --keep-intermediate-files \
+ ${SCYTRIMFILES}/C_SCY__TRIM_SRR039460.fastq rsem_reference rsem_scytrim460
+
+#${TRINITY_ABUN}/util/align_and_estimate_abundance.pl \
+#  --transcripts ${TRANSDIR}/Trinity.fasta --seqType fq \
+#  --single ${SCYTRIMFILES}/C_SCY__TRIM_SRR039460.fastq \
+#  --est_method RSEM --aln_method bowtie --trinity_mode --SS_lib_type F \
+#  --thread_count 16
+#
+wait
+date
+date
+date
+#
+# Align second set
+#
+mkdir -p ${ABUNDDIR}/rsem_dmel_scytrim458
+cp ${ABUNDDIR}/rsem_reference* ${ABUNDDIR}/rsem_dmel_scytrim458
+cd ${ABUNDDIR}/rsem_dmel_scytrim458
+rsem-calculate-expression \
+ --num-threads 16 \
+ --forward-prob=1.0 \
+ --keep-intermediate-files \
+ ${SCYTRIMFILES}/C_SCY__TRIM_SRR039458.fastq rsem_reference rsem_scytrim458
+
+#${TRINITY_ABUN}/util/align_and_estimate_abundance.pl \
+#  --transcripts ${TRANSDIR}/Trinity.fasta --seqType fq \
+#  --single ${SCYTRIMFILES}/C_SCY__TRIM_SRR039458.fastq \
+#  --est_method RSEM --aln_method bowtie --trinity_mode --SS_lib_type F \
+#  --thread_count 16
+#
+wait
+date
+date
+date
+#
+# Align third set
+#
+mkdir -p ${ABUNDDIR}/rsem_dmel_scytrim933
+cp ${ABUNDDIR}/rsem_reference* ${ABUNDDIR}/rsem_dmel_scytrim933
+cd ${ABUNDDIR}/rsem_dmel_scytrim933
+rsem-calculate-expression \
+ --num-threads 16 \
+ --forward-prob=1.0 \
+ --keep-intermediate-files \
+ ${SCYTRIMFILES}/C_SCY__TRIM_SRR039933.fastq rsem_reference rsem_scytrim933
+
+#${TRINITY_ABUN}/util/align_and_estimate_abundance.pl \
+#  --transcripts ${TRANSDIR}/Trinity.fasta --seqType fq \
+#  --single ${SCYTRIMFILES}/C_SCY__TRIM_SRR039933.fastq \
+#  --est_method RSEM --aln_method bowtie --trinity_mode --SS_lib_type F \
+#  --thread_count 16
+##
+wait
+date
+date
+date
+#
+# Align fourth set
+#
+mkdir -p ${ABUNDDIR}/rsem_dmel_scytrim935
+cp ${ABUNDDIR}/rsem_reference* ${ABUNDDIR}/rsem_dmel_scytrim935
+cd ${ABUNDDIR}/rsem_dmel_scytrim935
+rsem-calculate-expression \
+ --num-threads 16 \
+ --forward-prob=1.0 \
+ --keep-intermediate-files \
+ ${SCYTRIMFILES}/C_SCY__TRIM_SRR039935.fastq rsem_reference rsem_scytrim935
+
+#${TRINITY_ABUN}/util/align_and_estimate_abundance.pl \
+#  --transcripts ${TRANSDIR}/Trinity.fasta --seqType fq \
+#  --single ${SCYTRIMFILES}/C_SCY__TRIM_SRR039935.fastq \
+#  --est_method RSEM --aln_method bowtie --trinity_mode --SS_lib_type F \
+#  --thread_count 16 
+##
+wait
+date
+date
+date
+#
+# Compute numbers via fpkm
+#
+wait
+${TRINITY_ABUN}/util/misc/count_features_given_MIN_FPKM_threshold.pl \
+  ${ABUNDDIR}/rsem_dmel_scytrim460/rsem_scytrim460.genes.results \
+     > ${ABUNDDIR}/rsem_dmel_scytrim460/cumul_counts.txt
+date
+date
+date
+${TRINITY_ABUN}/util/misc/count_features_given_MIN_FPKM_threshold.pl \
+  ${ABUNDDIR}/rsem_dmel_scytrim458/rsem_scytrim458.genes.results \
+     > ${ABUNDDIR}/rsem_dmel_scytrim458/cumul_counts.txt
+date
+date
+date
+${TRINITY_ABUN}/util/misc/count_features_given_MIN_FPKM_threshold.pl \
+  ${ABUNDDIR}/rsem_dmel_scytrim933/rsem_scytrim933.genes.results \
+     > ${ABUNDDIR}/rsem_dmel_scytrim933/cumul_counts.txt
+date
+date
+date
+${TRINITY_ABUN}/util/misc/count_features_given_MIN_FPKM_threshold.pl \
+  ${ABUNDDIR}/rsem_dmel_scytrim935/rsem_scytrim935.genes.results \
+     > ${ABUNDDIR}/rsem_dmel_scytrim935/cumul_counts.txt
+
+#${TRINITY_HOME}/util/misc/count_features_given_MIN_FPKM_threshold.pl \
+ # ${ABUNDDIR}/Sp_hs/RSEM.genes.results > ${ABUNDDIR}/Sp_hs/cumul_counts.txt
+#${TRINITY_HOME}/util/misc/count_features_given_MIN_FPKM_threshold.pl \
+  #${ABUNDDIR}/Sp_log/RSEM.genes.results > ${ABUNDDIR}/Sp_log/cumul_counts.txt
+#${TRINITY_HOME}/util/misc/count_features_given_MIN_FPKM_threshold.pl \
+ # ${ABUNDDIR}/Sp_plat/RSEM.genes.results > ${ABUNDDIR}/Sp_plat/cumul_counts.txt
+#
+# Get accounting report
+#
+date
+date
+date
+#ja -set $SCRATCH/$$

@@ -1,0 +1,67 @@
+#!/bin/bash
+#PBS -l nodes=1:ppn=15
+#PBS -l walltime=12:00:00
+#PBS -j oe
+#PBS -q batch
+#PBS -N trinity_clean_run
+#
+# Turn echo on so all commands are echoed in the output log
+set -x
+date
+#
+#newgrp -l mc3uvap
+#
+# Define where the input data is
+READS=/crucible/sy31l7p/ijimenez/all_scy_trim_folder/clean_scy_trim_files/all_clean_scy_trim.fastq
+#
+# Define the directory where the job will run
+OUTDIR=/crucible/sy31l7p/ijimenez/hulk/after_cleaning/trinity_output
+#
+#  Set the stack size to unlimited
+#ulimit -s unlimited
+#
+# Start the accounting report
+#ja
+#
+# Turn echo on so all commands are echoed in the output log
+set -x
+#
+# Setup the module command
+source /usr/share/Modules/init/bash
+#
+# Load the needed modules
+# Here trinity version r2012-04-13p1 is used
+# Java is also used but loaded from another module 
+module load trinity/2.0.6-all
+#module load java
+#module load bowtie/1.1.1
+#module load samtools/0.1.19
+#
+# Create the directory to run the job in if it doesn't already exist
+mkdir -p $OUTDIR
+#
+# Move to the job directory
+cd $OUTDIR
+#
+#######################################################
+##  Run Trinity to Generate Transcriptome Assemblies ##
+##  Stop before chrysalis                            ##
+#######################################################
+export _JAVA_OPTIONS="-XX:ParallelGCThreads=2"
+Trinity \
+--max_memory 10G \
+--CPU 16 \
+--bflyCPU 16 \
+--bflyGCThreads=2 \
+--seqType fq  \
+--single $READS \
+--output trinity_out_dir
+#--JM10G \
+wait
+##################
+####   Done.  ####
+##################
+#
+# Get accounting report
+#ja -o | gawk '$3 > 600.0 {print}'
+#ja -set

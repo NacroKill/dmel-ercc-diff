@@ -1,0 +1,148 @@
+#!/bin/bash
+#PBS -q batch
+#PBS -j oe
+#PBS -l ncpus=16
+#PBS -l walltime=12:00:00
+#PBS -N cufflinks_birna
+#
+# Adapted from: Trapnell et. al. Nature Protocols 7(3): 562-578
+# doi:10.1038/nprot.2012.016
+#
+# ---------------
+# Cufflinks script
+# ---------------
+ja $SCRATCH/$$
+source /usr/share/modules/init/bash
+module load tophat/2.0.13
+module load bowtie/1.1.1
+module load bowtie2/2.2.3
+module load samtools/0.1.19
+module load cufflinks/2.2.1
+#
+set -x
+#mkdir $SCRATCH/job_files/one_more_try_tophat/Tuxedo
+#cd $SCRATCH/job_files/one_more_try_tophat/Tuxedo
+#
+# Copy input data from File Archiver
+#
+READS=/brashear/ijimenez/data_files/scy_trim_files
+DMELGTF=/brashear/ijimenez/job_files/one_more_try_tophat/ucsc/dmel6_refseq.gtf
+DMELGENOME=/brashear/ijimenez/job_files/one_more_try_tophat/ucsc/dmel6
+#
+date
+date
+date
+#dplace -c 0-7 tophat --bowtie1 -p 8 \
+# -G $DMELGTF \
+# -o scy_trim_460output_tophat \
+#$DMELGENOME \
+#
+READS/SCY__TRIM_SRR039460.fastq \
+#> scytrim460_tophat.log 2>&1 &
+#
+#dplace -c 8-15 tophat --bowtie1 -p 8 \
+#-G $DMELGTF \
+#-o scy_trim_458output_tophat \
+#$DMELGENOME \
+#$READS/SCY__TRIM_SRR039458.fastq \
+#> scytrim458_tophat.log 2>&1 &
+#
+#dplace -c 16-23 tophat --bowtie1 -p 8 \
+# -G $DMELGTF \
+# -o scy_trim_933output_tophat \
+#$DMELGENOME \
+#$READS/SCY__TRIM_SRR039933.fastq \
+#> scytrim933_tophat.log 2>&1 &
+#
+#dplace -c 24-31 tophat --bowtie1 -p 8 \
+# -G $DMELGTF \
+# -o scy_trim_935output_tophat \
+#$DMELGENOME \
+#$READS/SCY__TRIM_SRR039935.fastq \
+#> scytrim935_tophat.log 2>&1 &
+#
+##dplace -c 8-15 tophat --bowtie1 -p 8 -G genes.gtf -o scytrim458_tophat genome \
+# #    GSM794484_C1_R2_1.fq GSM794484_C1_R2_2.fq > C1_R2_tophat.log 2>&1 &
+##dplace -c 16-23 tophat --bowtie1 -p 8 -G genes.gtf -o C2_R1_tophat genome \
+# #    GSM794486_C2_R1_1.fq GSM794486_C2_R1_2.fq > C2_R1_tophat.log 2>&1 &
+##dplace -c 24-31 tophat --bowtie1 -p 8 -G genes.gtf -o C2_R2_tophat genome \
+# #    GSM794487_C2_R2_1.fq GSM794487_C2_R2_2.fq > C2_R2_tophat.log 2>&1 &
+##
+#wait
+##
+#date
+#date
+#date
+###
+dplace -c 0-7 cufflinks -p 8 -o scy_trim460_cufflinks \
+     scy_trim_460output_tophat/accepted_hits.bam \
+> scy_trim460_cufflinks.log 2>&1 &
+
+dplace -c 8-15 cufflinks -p 8 -o scy_trim458_cufflinks \
+     scy_trim_458output_tophat/accepted_hits.bam \
+> scy_trim458_cufflinks.log 2>&1 &
+
+dplace -c 16-23 cufflinks -p 8 -o scy_trim933_cufflinks \
+     scy_trim_933output_tophat/accepted_hits.bam \
+> scy_trim933_cufflinks.log 2>&1 &
+
+dplace -c 24-31 cufflinks -p 8 -o scy_trim935_cufflinks \
+     scy_trim_935output_tophat/accepted_hits.bam \
+> scy_trim935_cufflinks.log 2>&1 &
+#
+#dplace -c 8-15 cufflinks -p 8 -o C1_R2_cufflinks \
+ #    C1_R2_tophat/accepted_hits.bam > C1_R2_cufflinks.log 2>&1 &
+#dplace -c 16-23 cufflinks -p 8 -o C2_R1_cufflinks \
+ #    C2_R1_tophat/accepted_hits.bam > C2_R1_cufflinks.log 2>&1 &
+#dplace -c 24-31 cufflinks -p 8 -o C2_R2_cufflinks \
+#     C2_R2_tophat/accepted_hits.bam > C2_R2_cufflinks.log 2>&1 &
+wait
+date
+date
+date
+#
+echo "./scy_trim460_cufflinks/transcripts.gtf" > assemblies.txt
+echo "./scy_trim458_cufflinks/transcripts.gtf" >> assemblies.txt
+echo "./scy_trim933_cufflinks/transcripts.gtf" >> assemblies.txt
+echo "./scy_trim935_cufflinks/transcripts.gtf" >> assemblies.txt
+#
+#echo "./C1_R1_cufflinks/transcripts.gtf" > assemblies.txt
+#echo "./scy_trim_458cufflinks/transcripts.gtf" >> assemblies.txt
+#echo "./C2_R1_cufflinks/transcripts.gtf" >> assemblies.txt
+#echo "./C2_R2_cufflinks/transcripts.gtf" >> assemblies.txt
+date
+date
+date
+cuffmerge -g $DMELGTF -s $DMELGENOME.fa -p16 assemblies.txt
+date
+date
+date
+#
+#
+cuffdiff -o scy_trimC1_2_C3_cuffdiff -b $DMELGENOME.fa -p 16 -L C1_2,C3 \
+     -u merged_asm/merged.gtf \
+     ./scy_trim_460output_tophat/accepted_hits.bam,./scy_trim_458output_tophat/accepted_hits.bam ./scy_trim_933output_tophat/accepted_hits.bam
+#
+
+cuffdiff -o scy_trimC1_2_C4_cuffdiff -b $DMELGENOME.fa -p 16 -L C1_2,C4 \
+     -u merged_asm/merged.gtf \
+     ./scy_trim_460output_tophat/accepted_hits.bam,./scy_trim_458output_tophat/accepted_hits.bam ./scy_trim_935output_tophat/accepted_hits.bam
+#,./C1_R2_tophat/accepted_hits.bam \
+ #    ./C2_R1_tophat/accepted_hits.bam,./C2_R2_tophat/accepted_hits.bam
+date
+date
+date
+#
+# Compare transcriptome assembly to reference transcriptome
+#
+find . -name transcripts.gtf > gtf_out_list.txt
+cuffcompare -r $DMELGTF -i gtf_out_list.txt
+for i in 'find . -name *.tmap';
+do
+ echo $i; gawk 'NR > 1 { s [$3] + +}; END { \\
+for (j in s) { print j, s[j] } }' $i;
+done
+date
+date
+date
+ja -set $SCRATCH/$$
